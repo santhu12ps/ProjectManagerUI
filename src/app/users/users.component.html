@@ -1,0 +1,12 @@
+<div class="jumbtron">
+  <div class="row" *ngIf="userService.isUpdate==false">
+    <app-adduser style="width:100%"></app-adduser>  
+  </div>
+  <div class="row" *ngIf="userService.isUpdate==true">
+      <app-edituser style="width:100%"></app-edituser>  
+  </div>
+  <hr>
+  <div class="row">
+    <app-viewuser style="width:100%"></app-viewuser>
+  </div>
+</div>

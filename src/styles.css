@@ -1,0 +1,59 @@
+/* You can add global styles to this file, and also import other style files */
+/* @import '@angular/material/prebuilt-themes/deeppurple-amber.css'; */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+.projectHeader{
+    color: #000000;
+}
+.form-group>input{
+    font-weight: lighter;
+}
+.form-group>label{
+    font-weight: bolder;
+}
+.form-control,.input-group-text{
+    border:1px solid #0080ff;
+}
+.jumbotron{
+    background-color: #fff;
+    padding-top: 0px;
+}
+input.ng-touched.ng-invalid{
+    border-color: #dc3545;
+}
+div.validation-error{
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+/*Mat tab  - styles*/
+[_nghost-c5] {
+    display: inline-block !important;
+    width: 100%;
+}
+.mat-tab-link-active,
+.mat-tab-label-active {
+    background-color: #000000;/*0069d9*/
+    color: red;/*#D5FEFF*/
+    border: 1px solid blue;/*6B7F7F*/
+    font-weight: bold;
+}
+.mat-tab-link,
+.mat-tab-label {
+    line-height: 30px !important;
+    height: 30px !important;
+    min-width: 100px !important;
+    border: 1px solid #7e7e7e;
+}
+.tabContentContainer {
+    border: 1px solid #aaaaaa;
+    background: #ffffff 50% 50% repeat-x;
+}
+.hr-dottedline {
+    border:none;
+    border-top:1px dotted black;
+    color:#fff;
+    background-color:#fff;
+    height:2px;
+    width:100%;
+  }

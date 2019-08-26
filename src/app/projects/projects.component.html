@@ -1,0 +1,12 @@
+<div class="jumbtron">
+  <div class="row" *ngIf="projectService.isUpdate==false">
+        <app-addproject style="width:100%"></app-addproject>  
+  </div>
+  <div class="row" *ngIf="projectService.isUpdate==true">
+    <app-editproject style="width:100%"></app-editproject>  
+</div>
+<hr>
+  <div class="row">
+      <app-viewproject style="width:100%"></app-viewproject>
+  </div>
+</div>

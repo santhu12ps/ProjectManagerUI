@@ -1,0 +1,77 @@
+<div style="padding:20px">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label"></label>
+        <div class="mx-sm-3">
+            <input name="userSearch"  [(ngModel)]="userSearch" placeholder="Search" class="form-control" disabled>
+        </div>
+        <div class="mx-sm-3">
+            <button id="btnUserSearch" (click)="openUserModalPopup(userContent)" title="Filter" type="button" class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Sort User By</label>
+        <div class="mx-sm-3">
+            <button type="submit" (click)="SortUser('First_Name')"  class="btn btn-info">First Name</button>
+        </div>
+        <div class="mx-sm-3">
+            <button type="submit"  (click)="SortUser('Last_Name')" class="btn btn-info">Last Name</button>
+        </div>
+        <div class="mx-sm-3">
+            <button type="submit" (click)="SortUser('Employee_ID')"  class="btn btn-info">Employee ID</button>
+        </div>
+    </div> 
+    <hr>   
+    <div class="form-row table table-light table-strips" *ngFor="let u of userService.userList">
+        <div class="form-group col-md-3">
+            <label>First Name</label><br>
+            {{u.First_Name}}
+        </div>
+        <div class="form-group col-md-3">
+            <label>Last Name</label><br>
+            {{u.Last_Name}}
+        </div>
+        <div class="form-group col-md-3">
+            <label>Employee ID</label><br>
+            {{u.Employee_ID}}
+        </div>        
+        <div class="form-group col-md-3">
+            <div>
+                <button type="button" (click)="editUser(u)" class="btn btn-info">
+                    <i class="fa fa-edit"></i> Edit</button>&nbsp;
+                <button type="button" (click)="deleteUser(u.User_ID)" class="btn btn-info">
+                    <i class="fa fa-remove"></i> Suspend</button>
+            </div>
+        </div>
+        <hr style="width:100%;"/>
+    </div>
+</div>
+
+<!-- user popup -->
+<ng-template #userContent let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title">Users</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group row">           
+            <div class="mx-sm-3">
+              <input name="User" placeholder="Search" [(ngModel)]="userSearch" class="form-control">
+            </div>
+            <div class="mx-sm-3">
+              <button type="button" (click)="filterUser()" class="btn btn-info" title="Filter User" ><i class="fa fa-search" aria-hidden="true"></i></button>
+            </div>      
+          </div>
+          <table class="table table-bordered table-hover">        
+            <tr *ngFor="let u of userService.userList">
+              <td (click)="populateUser(u)">{{u.First_Name}}</td>
+              <td (click)="populateUser(u)">{{u.Last_Name}}</td>
+              <td (click)="populateUser(u)">{{u.Employee_ID}}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" (click)="modal.close('Close click')">Close</button>
+        </div>
+    </ng-template>

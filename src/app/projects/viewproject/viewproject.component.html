@@ -1,0 +1,78 @@
+<div style="padding:20px">
+  <div class="form-group row">
+      <label class="col-sm-2 col-form-label"></label>
+      <div class="mx-sm-3">
+          <input name="projectSearch"  [(ngModel)]="projectSearch" placeholder="Search" class="form-control">
+      </div>
+      <div class="mx-sm-3">
+          <button id="btnUserSearch" (click)="filterProject()" title="Filter" type="button" class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i></button>
+      </div>
+  </div>  
+  <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Sort By</label>
+      <div class="mx-sm-3">
+          <button type="submit" (click)="SortProject('Start_Date')"  class="btn btn-info">Start Date</button>
+      </div>
+      <div class="mx-sm-3">
+          <button type="submit"  (click)="SortProject('End_Date')" class="btn btn-info">End Date</button>
+      </div>
+      <div class="mx-sm-3">
+          <button type="submit" (click)="SortProject('Priority')"  class="btn btn-info">Priority</button>
+      </div>
+      <div class="mx-sm-3">
+          <button type="submit" (click)="SortProject('Completed')"  class="btn btn-info">Completed</button>
+      </div>
+  </div>
+  <hr>
+  <div class="form-row table table-light table-strips">
+      <div class="form-group col-md-2">
+      <label>Project</label><br>
+      </div>
+      <div class="form-group col-md-1">
+          <label>No.Of Tasks</label><br>
+      </div>      
+      <div class="form-group col-md-1">
+          <label>Completed</label><br>
+      </div>
+      <div class="form-group col-md-1">
+        <label>Priority</label><br>
+      </div>        
+      <div class="form-group col-md-2">
+          <label>Start Date</label>            
+      </div>
+      <div class="form-group col-md-2">
+        <label>End Date</label>            
+      </div>
+      <div class="form-group col-md-3">
+        <label></label>            
+      </div>
+  </div>
+  <div class="form-row table table-light table-strips" *ngFor="let p of projectService.searchProjectResult">
+      <div class="form-group col-md-2">
+      {{p.ProjectName}}
+      </div>
+      <div class="form-group col-md-1">
+          {{p.No_OfTask}}
+      </div>
+      <div class="form-group col-md-1">
+          {{p.NumberOfTaskCompleted}}
+      </div>
+      <div class="form-group col-md-1">
+        {{p.Project_Priority}}
+      </div>
+      <div class="form-group col-md-2">
+        {{p.Project_Start_Date}}
+    </div>
+    <div class="form-group col-md-2">
+        {{p.Project_End_Date}}
+    </div>        
+    <div class="form-group col-md-3">
+        <div>
+            <button type="button" (click)="editProject(p)" class="btn btn-info">
+                <i class="fa fa-edit"></i> Edit</button>&nbsp;
+            <button type="button" (click)="deleteProject(p.Project_ID)" class="btn btn-info">
+                <i class="fa fa-remove"></i> Suspend</button>
+        </div>
+    </div>
+  </div>
+</div>

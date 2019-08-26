@@ -1,0 +1,8 @@
+<div class="jumbtron">
+  <div class="row" *ngIf="taskService.isEdit==false">
+    <app-addtask style="width:100%"></app-addtask>  
+  </div>
+  <div class="row" *ngIf="taskService.isEdit==true">
+      <app-edittask style="width:100%"></app-edittask>  
+    </div>
+</div>

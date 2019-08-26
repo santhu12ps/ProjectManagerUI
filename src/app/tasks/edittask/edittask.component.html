@@ -1,0 +1,136 @@
+<div style="padding:20px;">
+    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+      <input type="hidden" name="Task_ID" #Task_ID="ngModel" [(ngModel)]="taskService.formData.Task_ID">     
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Project</label>
+        <div class="mx-sm-3">
+          <input type="hidden" name="Project_ID" #Task_ID="ngModel" [(ngModel)]="taskService.formData.Project_ID">
+          <input name="ProjectName" #ProjectName="ngModel" [(ngModel)]="taskService.formData.ProjectName" class="form-control" disabled>
+        </div>
+        <div class="mx-sm-3">
+          <button id="btnProjectSearch" [disabled] = "true" (click)="openProjectModalPopup(projectcontent)" type="button" class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Task</label>
+        <div class="mx-sm-3">
+          <input name="TaskName" #TaskName="ngModel" [disabled]="taskService.isViewOnly" [(ngModel)]="taskService.formData.TaskName" class="form-control" required>
+        </div>
+      </div>    
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Priority</label>      
+        <div class="mx-sm-3">
+            <input  type="range" min="0" max="30" value="1" step ="5" [disabled]="taskService.isViewOnly" class="slider" #Priority="ngModel" [(ngModel)]="taskService.formData.TaskPriority" name="Priority">
+            {{taskService.formData.TaskPriority}}
+        </div>
+      </div>
+      <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Parent Task</label>
+          <div class="mx-sm-3">
+            <input type="hidden" name="Parent_ID" #Parent_ID="ngModel" [(ngModel)]="taskService.formData.Parent_ID">
+            <input name="ParentTask" #ParentTask="ngModel" [(ngModel)]="taskService.formData.ParentTask" class="form-control" disabled>
+          </div>
+          <div class="mx-sm-3">
+            <button type="button" [disabled]="taskService.isViewOnly" (click)="openParentTaskModalPopup(parentTaskContent)" class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Start Date</label>
+        <div class="mx-sm-3">
+          <input [disabled]="taskService.isViewOnly" name="Start_Date" #Start_Date="ngModel" [(ngModel)]="taskService.formData.Start_Date" matInput [matDatepicker]="pickStart_Date" class="form-control" placeholder="Start Date">        
+        </div>
+        <div class="mx-sm-3">
+          <mat-datepicker-toggle matSuffix [for]="pickStart_Date"></mat-datepicker-toggle>
+          <mat-datepicker #pickStart_Date></mat-datepicker>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">End Date</label>
+        <div class="mx-sm-3">
+          <input [disabled]="taskService.isViewOnly" name="End_Date" #End_Date="ngModel" [(ngModel)]="taskService.formData.End_Date" matInput [matDatepicker]="pickEnd_Date" class="form-control" placeholder="End Date">        
+        </div>
+        <div class="mx-sm-3">
+          <mat-datepicker-toggle matSuffix [for]="pickEnd_Date"></mat-datepicker-toggle>
+          <mat-datepicker #pickEnd_Date></mat-datepicker>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">User</label>
+        <div class="mx-sm-3">
+          <input type="hidden" name="User_ID" #User_ID="ngModel" [(ngModel)]="taskService.formData.User_ID">
+          <input name="UserName" #UserName="ngModel" [(ngModel)]="taskService.formData.UserName" class="form-control" disabled>
+        </div>
+        <div class="mx-sm-3">
+          <button type="button" [disabled]="taskService.isViewOnly" (click)="openUserModalPopup(usercontent)" class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-2">
+        </div>        
+        <div class="mx-sm-3">
+          <button type="submit" [disabled] = "form.invalid || taskService.isViewOnly" class="btn btn-info">
+              <i class="fa fa-list"></i> Update Task
+          </button>
+        </div>
+        <div class="mx-sm-3">
+            <button type="button" (click)="resetForm()" class="btn btn-info">Reset</button>
+        </div>
+      </div>
+    </form>
+  </div>
+<!-- parent task popup -->
+<ng-template #parentTaskContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Parent Tasks</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group row">           
+        <div class="mx-sm-3">
+          <input name="Task" placeholder="Search" [(ngModel)]="taskSearch" class="form-control">
+        </div>
+        <div class="mx-sm-3">
+          <button type="button" (click)="filterTask()" class="btn btn-info" title="Filter Parent Task" ><i class="fa fa-search" aria-hidden="true"></i></button>
+        </div>      
+      </div>      
+      <table class="table table-bordered table-hover">        
+        <tr *ngFor="let t of parentTaskService.parentTaskList">
+          <td (click)="populateTask(t)">{{t.Parent_Task}}</td>
+        </tr>
+      </table>      
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-info" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>
+  <!-- user popup -->
+  <ng-template #usercontent let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Users</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">           
+          <div class="mx-sm-3">
+            <input name="User" placeholder="Search" [(ngModel)]="userSearch" class="form-control">
+          </div>
+          <div class="mx-sm-3">
+            <button type="button" (click)="filterUserItem()" class="btn btn-info" title="Filter User" ><i class="fa fa-search" aria-hidden="true"></i></button>
+          </div>      
+        </div>
+        <table class="table table-bordered table-hover">        
+          <tr *ngFor="let u of userService.userList">
+            <td (click)="populateUserName(u)">{{u.First_Name}}</td>
+            <td (click)="populateUserName(u)">{{u.Last_Name}}</td>
+            <td (click)="populateUserName(u)">{{u.Employee_ID}}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="modal.close('Close click')">Close</button>
+      </div>
+  </ng-template>

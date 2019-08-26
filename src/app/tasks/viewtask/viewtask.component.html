@@ -1,0 +1,85 @@
+<div style="padding:5px">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Project</label>
+        <div class="mx-sm-3">
+            <input name="searchProjectTask"  [(ngModel)]="searchProjectTask" class="form-control" disabled>
+        </div>
+        <div class="mx-sm-3">
+            <button id="btnProjectSearch" (click)="openProjectModalPopup(projectContent)" title="Filter Project" type="button" class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Sort Task By</label>
+        <div class="mx-sm-3">
+            <button type="submit" (click)="SortTask('Start_Date')"  class="btn btn-info">Start Date</button>
+        </div>
+        <div class="mx-sm-3">
+            <button type="submit"  (click)="SortTask('End_Date')" class="btn btn-info">End Date</button>
+        </div>
+        <div class="mx-sm-3">
+            <button type="submit" (click)="SortTask('Priority')"  class="btn btn-info">Priority</button>
+        </div>
+        <div class="mx-sm-3">
+            <button type="submit" (click)="SortTask('Status')"  class="btn btn-info">Completed</button>
+        </div>
+    </div>
+    <hr>    
+    <div class="form-row table table-light table-strips" *ngFor="let t of taskService.taskList">
+        <div class="form-group col-md-2">
+            <label>Task</label> <br>
+            {{t.TaskName}}
+        </div>
+        <div class="form-group col-md-2">
+            <label>Parent</label> <br>
+            {{t.ParentTask}}
+        </div>
+        <div class="form-group col-md-1">
+            <label>Priority</label> <br>
+            {{t.TaskPriority}}
+        </div>
+        <div class="form-group col-md-2">
+            <label>Start Date</label> <br>
+            {{t.Start_Date|date:'MM/dd/yyyy'}}
+        </div>
+        <div class="form-group col-md-2">
+            <label>End Date</label> <br>
+            {{t.End_Date|date:'MM/dd/yyyy'}}
+        </div>
+        <div class="form-group col-md-3">
+            <div>
+                <button type="button" (click)="editTask(t, 0)" class="btn btn-info"> View</button>&nbsp;
+                <button type="button" (click)="editTask(t, 1)" class="btn btn-info" [disabled]="t.IsTaskCompleted"><i class="fa fa-edit"></i> Edit</button>&nbsp;
+                <button type="button" (click)="endTask(t.Task_ID)"  [disabled]="t.IsTaskCompleted" title='{{t.TaskTooltip}}' class="btn btn-info"><i class="fa fa-stop-circle"></i> End Task </button>
+            </div>
+        </div>
+        <hr style="width:100%;"/>
+    </div>
+</div>
+
+<!-- project popup -->
+<ng-template #projectContent let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Tasks</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group row">           
+        <div class="mx-sm-3">
+            <input name="Task" placeholder="Search" [(ngModel)]="projectSearch" class="form-control">
+        </div>
+        <div class="mx-sm-3">
+            <button type="button" (click)="filterProjectItem()" class="btn btn-primary" title="Filter Project" ><i class="fa fa-search" aria-hidden="true"></i></button>
+        </div>      
+        </div>
+        <table class="table table-bordered table-hover">        
+        <tr *ngFor="let p of projectService.searchProjectResult">
+            <td (click)="populateProjectName(p)">{{p.ProjectName}}</td>
+        </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>

@@ -1,0 +1,96 @@
+<div style="padding:20px;">
+  <form #form="ngForm" (submit)="submit(form)" autocomplete="off">
+    <input type="hidden" name="Project_ID" #Project_ID="ngModel" [(ngModel)]="projectService.formData.Project_ID">      
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Project Name</label>
+        <div class="mx-sm-3">
+          <input name="ProjectName" #ProjectName="ngModel" [(ngModel)]="projectService.formData.ProjectName" class="form-control" required>
+        </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Priority</label>      
+      <div class="mx-sm-3">
+          <input  type="range" min="0" max="30" value="1" step ="5" class="slider" #Priority="ngModel" [(ngModel)]="projectService.formData.Priority" name="Priority">
+          {{projectService.formData.Priority}}
+      </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Manager</label>
+        <div class="mx-sm-3">
+          <input type="hidden" name="Manager_ID" #Manager_ID="ngModel" [(ngModel)]="projectService.formData.Manager_ID">      
+          <input name="Manager" #Manager="ngModel" [(ngModel)]="projectService.formData.Manager" class="form-control" disabled>
+        </div>
+        <div class="mx-sm-3">
+          <button id="btnManagerSearch" type="button" (click)="openManagerModalPopup(managerContent)" class="btn btn-info"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </div>
+      </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label"></label>
+        <div class="mx-sm-3">
+          <input type="checkbox" [checked]="setDateCheckBox" (change)="resetParentControl()" name="chkProjectDate" #chkProjectDate>Set Start Date & End Date
+        </div>
+      </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Start Date</label>
+        <div class="mx-sm-3">
+          <input [disabled] = "!projectService.setDateCheckBox" name="Start_Date" #Start_Date="ngModel" [(ngModel)]="projectService.formData.Start_Date" matInput [matDatepicker]="pickStart_Date" class="form-control">        
+        </div>
+        <div class="mx-sm-3">
+          <mat-datepicker-toggle matSuffix [for]="pickStart_Date"></mat-datepicker-toggle>
+          <mat-datepicker #pickStart_Date></mat-datepicker>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">End Date</label>
+        <div class="mx-sm-3">
+          <input [disabled] = "!projectService.setDateCheckBox" name="End_Date" #End_Date="ngModel" [(ngModel)]="projectService.formData.End_Date" matInput [matDatepicker]="pickEnd_Date" class="form-control">        
+        </div>
+        <div class="mx-sm-3">
+          <mat-datepicker-toggle matSuffix [for]="pickEnd_Date"></mat-datepicker-toggle>
+          <mat-datepicker #pickEnd_Date></mat-datepicker>
+        </div>
+      </div>          
+    <div class="form-group row">
+      <div class="col-sm-2">
+      </div>        
+      <div class="mx-sm-3">
+        <button type="submit" [disabled] = "form.invalid" class="btn btn-info">
+            <i class="fa fa-list-alt"></i> Add Project
+        </button>
+      </div>
+      <div class="mx-sm-3">
+        <button type="button" (click)="resetForm()" class="btn btn-info">Reset</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- user popup -->
+<ng-template #managerContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Managers</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group row">           
+        <div class="mx-sm-3">
+          <input name="User" placeholder="Search" [(ngModel)]="managerSearch" class="form-control">
+        </div>
+        <div class="mx-sm-3">
+          <button type="button" (click)="filterManager()" class="btn btn-primary" title="Filter Manager" ><i class="fa fa-search" aria-hidden="true"></i></button>
+        </div>      
+      </div>
+      <table class="table table-bordered table-hover">        
+        <tr *ngFor="let m of userService.userList">
+          <td (click)="populateManager(m)">{{m.First_Name}}</td>
+          <td (click)="populateManager(m)">{{m.Last_Name}}</td>
+          <td (click)="populateManager(m)">{{m.Employee_ID}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>
